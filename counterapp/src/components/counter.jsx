@@ -2,17 +2,17 @@ import React, { Component } from "react";
 
 class Counter extends Component {
   state = {
-    count: 0,
+    value: this.props.value,
     tags: ["tag1", "tag2", "tag3"],
   };
 
   handleIncreament = (product) => {
     console.log(product);
-    this.setState({ count: this.state.count + 1 });
+    this.setState({ value: this.state.value + 1 });
   };
 
   resetIncreament = () => {
-    this.setState({ count: (this.state.count = 0) });
+    this.setState({ value: (this.state.value = 0) });
   };
 
   renderTags() {
@@ -27,9 +27,20 @@ class Counter extends Component {
     );
   }
 
+  getBadgeClasses() {
+    let classes = "badge m-2 badge-";
+    classes += this.state.count === 0 ? "warning" : "primary";
+    return classes;
+  }
+
+  formatCount() {
+    const { value } = this.state;
+    return value === 0 ? "zero" : value;
+  }
+
   render() {
     return (
-      <div>
+      <div className="mb-2 mt-2">
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
           onClick={() => this.handleIncreament({ id: 1 })}
@@ -39,25 +50,18 @@ class Counter extends Component {
         </button>
         <button
           onClick={this.resetIncreament}
-          className="ml-2 btn btn-large btn-danger"
+          className="ml-2 btn btn-large btn-warning"
         >
           Reset
         </button>
-        {this.state.tags.length === 0 && "Please create a new tag"}
-        {this.renderTags()}
+        <button
+          onClick={() => this.props.onDelete(this.props.id)}
+          className="ml-2 btn btn-large btn-danger"
+        >
+          Delete
+        </button>
       </div>
     );
-  }
-
-  getBadgeClasses() {
-    let classes = "badge m-2 badge-";
-    classes += this.state.count === 0 ? "warning" : "primary";
-    return classes;
-  }
-
-  formatCount() {
-    const { count } = this.state;
-    return count === 0 ? "zero" : count;
   }
 }
 
