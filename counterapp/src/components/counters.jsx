@@ -2,32 +2,22 @@ import React, { Component } from "react";
 import Counter from "./counter";
 
 class Counters extends Component {
-  state = {
-    counters: [
-      { id: 1, value: 0 },
-      { id: 2, value: 5 },
-      { id: 3, value: 0 },
-      { id: 4, value: 6 },
-      { id: 5, value: 0 },
-    ],
-  };
-
-  handleDelete = (counterId) => {
-    console.log("deleted", counterId);
-    const counters = this.state.counters.filter((c) => c.id !== counterId);
-    this.setState({ counters: counters });
-  };
-
   render() {
     return (
-      <div>
-        {this.state.counters.map((counter) => (
+      <div className="mb-2 mt-2">
+        <button
+          onClick={() => this.props.onTotalReset()}
+          className="btn btn-large btn-primary ml-2"
+        >
+          Reset
+        </button>
+        {this.props.counters.map((counter) => (
           <Counter
             key={counter.id}
-            id={counter.id}
-            onDelete={this.handleDelete}
-            value={counter.value}
-            selected={true}
+            onDelete={this.props.onDelete}
+            onIncrement={this.props.onIncrement}
+            onReset={this.props.onReset}
+            counter={counter}
           />
         ))}
       </div>
